@@ -29,6 +29,6 @@ I was doing [waterfall](http://en.wikipedia.org/wiki/Waterfall_model)!!! Once I 
 
 So while I have some grand plans for what will become of this website or blog, I was still able to go live with something in less than a day's time. And now that I've gotten the ball rolling, I can't wait to pack some real fun stuff into it.
 
-It's highly unlikely that you'll be reading this post in it's original incarnation (unless you checkout my initial commit), so just use your imagination as I describe it to you... it's pure HTML markup, no CSS, no fonts, rendered in Times New Roman.
+It's highly unlikely that you'll be reading this post in it's original incarnation (unless you checkout my [initial commit](https://github.com/integsrtite/alanquach.com/commit/d4f27b018c7ba56d87e4fa3b95980e27caebd435)), so just use your imagination as I describe it to you... it's pure HTML markup, no CSS, no fonts, rendered in Times New Roman.
 
 It's going to be a great year.
