@@ -11,12 +11,14 @@
     <link href="/favicon.png" rel="shortcut icon">
 
     <%- @getBlock('meta').toHTML() %>
-    <!-- Bootstrap? -->
+    <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen, projection" />
 
 </head>
 <body>
 
+<div class="content">
 <%- @content %>
+</div>
 
 <%- @getBlock('scripts').toHTML() %>
 <script>
