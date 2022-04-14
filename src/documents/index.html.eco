@@ -1,9 +1,0 @@
----
-layout: default
----
-<% for post in @getCollection("html").findAll({layout:"post"}).toJSON(): %>
-<div class="post">
-	<h1><a href="<%= post.url %>"><%= post.title %></a></h1>
-    <%- post.contentRenderedWithoutLayouts %>
-</div>
-<% end %>
