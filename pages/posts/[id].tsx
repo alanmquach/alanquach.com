@@ -6,6 +6,7 @@ import html from 'remark-html'
 import Link from 'next/link'
 
 import client from "../../apollo-client";
+import { AllPostsDocument, AllPostsQuery, PostBySlugDocument, PostBySlugQuery, PostFragment, SlugPostFragment } from "../../graphql/graphql";
 
 type PostProps = {
   id: string;
@@ -32,37 +33,27 @@ type PostParams = {
   id: string;
 }
 
-type PostQuery = {
-  allPost: {
-    publishedAt: string; //ISO date string actually
-    slug: {
-      current: string;
-    };
-    title: string;
-    body: string;
-  }[]
-}
+// type PostQuery = {
+//   allPost: {
+//     publishedAt: string; //ISO date string actually
+//     slug: {
+//       current: string;
+//     };
+//     title: string;
+//     body: string;
+//   }[]
+// }
 
 export async function getStaticPaths() {
-  const { data } = await client.query<PostQuery>({
-    query: gql`
-    query {
-      allPost {
-        publishedAt
-        title
-        slug {
-          current
-        }
-        body
-      }
-    }
-    `
+  const { data } = await client.query<AllPostsQuery>({
+    query: AllPostsDocument
   })
-  const { allPost } = data;
 
-  const paths: PostPaths[] = allPost.map(({ publishedAt, title, body, slug: { current: slug } }) => ({
+  const allPost: PostFragment[] = data?.allPost;
+
+  const paths: PostPaths[] = allPost.map(({ publishedAt, title, body, slug }) => ({
     params: {
-      id: [publishedAt.split('T')[0], slug].join('-'),
+      id: [publishedAt.split('T')[0], slug?.current].join('-'),
       title,
       body,
     }
@@ -77,34 +68,25 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }: { params: PostParams }): Promise<{ props: PostProps }> {
   const { id } = params;
   const [_year, _month, _day, ...slug] = id.split('-');
-  const { data } = await client.query<PostQuery>({
-    query: gql`
-    query($slug:String) {
-      allPost(where: {slug: {current: {eq:$slug}}}) {
-        publishedAt
-        title
-        slug {
-          current
-        }
-        body
-      }
-    }
-    `,
+  const { data } = await client.query<PostBySlugQuery>({
+    query: PostBySlugDocument,
     variables: {
       slug: slug.join('-')
     }
   })
 
-  const post = data.allPost[0];
+  const allPost: SlugPostFragment[] = data?.allPost;
+
+  const post = allPost[0];
   const { title, body } = post;
-  const processedContent = await remark()
+  const processedContent = body ? await remark()
     .use(html)
-    .process(body)
+    .process(body) : ''
   const bodyHtml = processedContent.toString();
   return {
     props: {
       id,
-      title,
+      title: title ?? '',
       bodyHtml
     }
   }

@@ -1,0 +1,14 @@
+fragment post on Post {
+  publishedAt
+  title
+  slug {
+    current
+  }
+  body
+}
+
+query allPosts {
+  allPost {
+    ...post
+  }
+}

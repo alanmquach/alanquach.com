@@ -1,0 +1,14 @@
+fragment slugPost on Post {
+  publishedAt
+  title
+  slug {
+    current
+  }
+  body
+}
+
+query postBySlug($slug: String) {
+  allPost(where: { slug: { current: { eq: $slug } } }) {
+    ...slugPost
+  }
+}
