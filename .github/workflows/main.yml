@@ -20,7 +20,7 @@ jobs:
            NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
            NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       run: |
-           yarn install --frozen-lockfile
+           npm install
            npm install netlify-cli --save-dev
            export OUTPUT=$(sh -c "netlify deploy --build --dir=.next")
            export NETLIFY_OUTPUT=$(echo "$OUTPUT")
