@@ -18,7 +18,7 @@ jobs:
          node-version: 16
     - env:
            NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-           NETLIFY_SITE_ID: d2dc8ee4-a215-4909-9f76-a2b288a57a32
+           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       run: |
            yarn install --frozen-lockfile
            npm install netlify-cli --save-dev
