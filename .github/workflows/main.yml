@@ -1,0 +1,25 @@
+on:
+  push:
+    branches:
+    - master
+    - main
+    
+name: Deploy to Netlify
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16
+    - run: yarn
+    - name: Build Next
+      run: yarn build
+    - name: Deploy to Netlify
+      env:
+        # GitHub secrets configured in Settings > Secrets > Actions        
+        # Auth Token from Netlify User Settings > Applications > Personal Access Token 
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      run: yarn netlify:deploy-prod
